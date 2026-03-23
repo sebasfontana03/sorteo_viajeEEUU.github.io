@@ -1,0 +1,275 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background: #f0f2f5;
+    padding: 20px;
+    min-height: 100vh;
+}
+
+.container {
+    width: 60%;                    /* ← CONTENEDOR PRINCIPAL 60% */
+    max-width: 1000px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+h1 {
+    text-align: center;
+    padding: 20px;
+    background: #667eea;
+    color: white;
+    font-size: 28px;
+}
+
+.header-actions {
+    text-align: center;
+    padding: 15px 20px;
+    background: #f8f9fa;
+    border-bottom: 1px solid #ddd;
+}
+
+.btn-limpiar {
+    padding: 12px 30px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-limpiar:hover {
+    background: #c82333;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
+}
+
+.panel {
+    padding: 25px;
+    margin: 20px;
+    background: #f8f9fa;
+    border-radius: 10px;
+    border: 2px solid #e9ecef;
+    width: 100%;                   /* ← PANELES ocupan 100% del contenedor 60% */
+}
+
+.panel h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #495057;
+    font-size: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+}
+
+td {
+    width: 10%;
+    height: 45px;
+    text-align: center;
+    border: 1px solid #ddd;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+td:hover:not(.selected):not(.blocked) {
+    background-color: #fff3cd;
+}
+
+td.selected {
+    background: #ffc107 !important;
+    color: #212529;
+    font-weight: bold;
+}
+
+td.blocked {
+    background: #ffc107 !important;
+    color: #212529;
+    font-weight: bold;
+    cursor: not-allowed !important;
+    position: relative;
+}
+
+td.blocked::after {
+    content: '✓';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 18px;
+    font-weight: bold;
+    color: #28a745;
+    z-index: 10;
+}
+
+td.blocked:hover {
+    background: #ffc107 !important;
+    transform: none;
+}
+
+tr:nth-child(even) td {
+    background: #f8f9fa;
+}
+
+tr:nth-child(odd) td {
+    background: white;
+}
+
+/* MODAL */
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.modal-content {
+    background: white;
+    margin: 15% auto;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 450px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+    position: relative;
+}
+
+.close {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 30px;
+    font-weight: bold;
+    cursor: pointer;
+    color: #999;
+}
+
+.close:hover {
+    color: #333;
+}
+
+#numeroSeleccionado {
+    color: #ffc107;
+    font-weight: bold;
+}
+
+#formDatos {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 20px;
+}
+
+#formDatos input {
+    padding: 15px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+#formDatos input:focus {
+    outline: none;
+    border-color: #ffc107;
+}
+
+#formDatos button, .btn-cerrar {
+    padding: 15px;
+    background: #ffc107;
+    color: #212529;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+#formDatos button:hover, .btn-cerrar:hover {
+    background: #e0a800;
+    transform: translateY(-2px);
+}
+
+.datos-bloqueado {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin: 20px 0;
+    text-align: left;
+}
+
+.datos-bloqueado p {
+    margin: 10px 0;
+    font-size: 16px;
+}
+
+.datos-bloqueado strong {
+    color: #495057;
+}
+
+@media (max-width: 768px) {
+    .container {
+        width: 95% !important;     /* ← Móvil: 95% */
+        margin: 10px;
+        padding: 10px;
+    }
+    
+    .panel {
+        margin: 10px;
+        padding: 15px;
+    }
+    
+    td {
+        font-size: 14px;
+        height: 40px;
+        padding: 5px;
+    }
+}
+
+
+/* AGREGAR al final de sorteo.css */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.btn-limpiar {
+    padding: 12px 30px;
+    background: #dc3545;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-limpiar:hover {
+    background: #c82333;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(220, 53, 69, 0.4);
+}
