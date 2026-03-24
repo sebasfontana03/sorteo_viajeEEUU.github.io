@@ -1,3 +1,17 @@
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "TU_API_KEY",
+  authDomain: "TU_AUTH_DOMAIN",
+  projectId: "TU_PROJECT_ID",
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+//TODO LO DE ARRIBA ES DE FIREBASE
+
 document.addEventListener('DOMContentLoaded', function() {
     // GENERAR 3 PANELES
     generarPanel(1, 100, 'tablaBody1');   // 1-100
@@ -75,7 +89,9 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // CARGAR DATOS EXISTENTES
     function cargarDatosExistentes() {
-        const registros = JSON.parse(localStorage.getItem('registros') || '[]');
+        //const registros = JSON.parse(localStorage.getItem('registros') || '[]');
+	//const registros = JSON.parse(addDoc(collection(db, "registros"), data);
+        const registros = await addDoc(collection(db, "registros"), data);
         registros.forEach(registro => {
             const cell = document.querySelector(`td[data-number="${registro.numero}"]`);
             if (cell) {
@@ -84,6 +100,18 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+async function cargarDatosExistentes() {
+    const querySnapshot = await getDocs(collection(db, "registros"));
+    querySnapshot.forEach((doc) => {
+        const registro = doc.data();
+        const cell = document.querySelector(`td[data-number="${registro.numero}"]`);
+        if (cell) {
+            cell.classList.add('blocked');
+            cell.title = `${registro.nombre} ${registro.apellido}`;
+        }
+    });
+}
 
     // MOSTRAR DATOS BLOQUEADO
     function mostrarDatosBloqueado(numero) {
@@ -125,7 +153,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     // Guardar
-    form.addEventListener('submit', function(e) {
+    form.addEventListener('submit', async function(e) {
         e.preventDefault();
         const nombre = document.getElementById('nombre').value;
         const apellido = document.getElementById('apellido').value;
@@ -164,3 +192,33 @@ document.addEventListener('DOMContentLoaded', function() {
 function cerrarModal() {
     document.getElementById('modal').style.display = 'none';
 }
+
+
+//---------------agregado-de-chatgpt
+
+// IMPORTAR FIREBASE (arriba de todo)
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, collection, addDoc, getDocs } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+// CONFIGURACIÓN (te la da Firebase)
+const firebaseConfig = {
+  apiKey: "TU_API_KEY",
+  authDomain: "TU_PROYECTO.firebaseapp.com",
+  projectId: "TU_PROYECTO",
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+await addDoc(collection(db, "registros"), data);
+
+
+const querySnapshot = await getDocs(collection(db, "registros"));
+querySnapshot.forEach((doc) => {
+  const registro = doc.data();
+  const cell = document.querySelector(`td[data-number="${registro.numero}"]`);
+  if (cell) {
+    cell.classList.add('blocked');
+    cell.title = `${registro.nombre} ${registro.apellido}`;
+  }
+});
